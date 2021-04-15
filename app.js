@@ -3,9 +3,8 @@ const validator = require('validator')
 const chalk = require('chalk')
 const yargs = require('yargs')
 const { argv } = require('yargs')
-const command = process.argv[2]
-
 yargs.version('1.1.5')
+const note = []
 
 yargs.command({
     command: 'add',
@@ -28,12 +27,27 @@ yargs.command({
        console.log("Title : ",argv.title);
        console.log("Body : ",argv.body);
        console.log('====================================');
+       
+       const notesToAdd = {
+           title :'Testing' ,
+           body :'Testing'
+       }
+
+       note.push(notesToAdd);
+
     }
 })
 
 yargs.command({
     command: 'remove',
     description:'Remove a note',
+    builder : {
+        title : {
+            description : 'Removing notes by title',
+            demandOption : true,
+            type : 'string',
+        }
+    },
     handler : ()=>{
         console.log('Removing a new note');
     }
@@ -43,7 +57,13 @@ yargs.command({
     command: 'list',
     description:'Listing a note',
     handler : ()=>{
-        console.log('Listing a new note');
+        console.log('List all notes');
+        console.log(note.length);
+        for(let i = 0 ; i < note.length ; i ++){
+            const now = notes[i];
+            console.log(now.title);
+            console.log(now.body);
+        }
     }
 })
 
