@@ -5,7 +5,6 @@ const yargs = require('yargs')
 const { argv } = require('yargs')
 yargs.version('1.1.5')
 const note = []
-
 yargs.command({
     command: 'add',
     description:'Add a note',
@@ -22,19 +21,7 @@ yargs.command({
         }
     },
     handler : ()=>{
-       console.log('====================================');
-       console.log("Adding command");
-       console.log("Title : ",argv.title);
-       console.log("Body : ",argv.body);
-       console.log('====================================');
-       
-       const notesToAdd = {
-           title :'Testing' ,
-           body :'Testing'
-       }
-
-       note.push(notesToAdd);
-
+        notes.addNotes(argv.title,argv.body);
     }
 })
 
