@@ -1,6 +1,5 @@
 const notes = require('./notes')
 const validator = require('validator')
-const chalk = require('chalk')
 const yargs = require('yargs')
 const { argv } = require('yargs')
 yargs.version('1.1.5')
@@ -36,7 +35,7 @@ yargs.command({
         }
     },
     handler : ()=>{
-        console.log('Removing a new note');
+        notes.removeNotes(argv.title)
     }
 })
 

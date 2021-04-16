@@ -1,34 +1,47 @@
 const fs = require('fs');
 const { boolean } = require('yargs');
+const chalk = require('chalk')
 
 const getNotes = ()=>{
     return "Your notes.."
 }
-const addNotes = (title,body)=>{
-    console.log('====================================');
-    console.log('Adding a note ! ');
-    console.log('title : '+title);
-    console.log('body : '+body);
-    console.log('====================================');
-    const notes = loadData()
-    const isDuplicate = ()=>{
-        var anwer = false;
-        notes.forEach(element => {
-            if(element.title == title)
-                answer = true;
-        });
-        return answer
-    }
 
-    if(isDuplicate() == false){
+const isExist = (notes,title)=>{
+    var answer = false
+    notes.forEach(element => {
+        if(element.title == title)
+            answer = true
+    });
+    return answer
+}
+
+const addNotes = (title,body)=>{
+    const notes = loadData()
+    if(isExist(notes,title) == false){
         notes.push({
             title : title,
             body : body
         })
         saveNote(notes)
+        console.log(chalk.green('Adding notes succes'));
     }else{
-        console.log(`Notes with title ${title} has been added before`);
-        console.log('Please input another movie');
+        console.log(chalk.red.inverse(`Notes with title ${title} has been added before`));
+        console.log(chalk.red('Please input another movie'));
+    }
+}
+
+const removeNotes = (title)=>{
+    notes = loadData()
+    if(! isExist(notes,title)){
+        console.log(chalk.red.inverse(`Notes with title ${title} not Found`));
+    }else{ 
+        newNotes = []
+        notes.forEach(element => {
+            if(! element.title === title)
+                newNotes.push(element)
+        });
+        saveNote(newNotes)
+        console.log(chalk.green.inverse(`Succes removing ${title}`));
     }
 }
 
@@ -43,12 +56,12 @@ const loadData = ()=>{
         const dataJson = dataBuffer.toString();
         return JSON.parse(dataJson);
     }catch (e) {
-        // console.log(e)
         return []
     }
 }
 
 module.exports = {
     addNotes: addNotes,
-    getNotes: getNotes
+    getNotes: getNotes,
+    removeNotes : removeNotes
 }
