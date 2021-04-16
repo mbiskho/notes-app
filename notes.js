@@ -45,6 +45,31 @@ const removeNotes = (title)=>{
     }
 }
 
+const listNote = ()=>{
+    const notes = loadData()
+    var index = 1
+    console.log("No. Title Description");
+    notes.forEach(element => {
+        console.log(`${index++}. ${element.title} ${element.body}}`);
+    });
+}
+
+const readNote = (title)=>{
+    const notes = loadData()
+    if(isExist(notes,title)){
+        var  obj = null
+        notes.forEach(element => {
+            if(element.title === title)
+                obj = element
+        });
+        console.log(chalk.green.inverse(`${obj.title}`));
+        console.log(chalk.green(`${obj.body}`));
+    }else{
+        console.log(chalk.red.inverse('Note not found'));
+    }
+}
+
+
 const saveNote = (note) => {
     const dataJson = JSON.stringify(note);
     fs.writeFileSync('Data.json',dataJson);
@@ -63,5 +88,7 @@ const loadData = ()=>{
 module.exports = {
     addNotes: addNotes,
     getNotes: getNotes,
-    removeNotes : removeNotes
+    removeNotes : removeNotes,
+    listNote : listNote,
+    readNote : readNote
 }
